@@ -84,12 +84,12 @@ async function loadJSONdata() {
   const style = {
     color: "#e4e5e7ff",
     weight: 1,
-    fillColor: "#062244ff",
+    fillColor: "#d3340cff",
     fillOpacity: 0.25,
   };
 
   try {
-    const r = await fetch("data/rawUS54099.geojson");
+    const r = await fetch("data/rawRussia54099.geojson");
     const geojson = await r.json();
 
     L.geoJSON(geojson, {
@@ -104,6 +104,29 @@ async function loadJSONdata() {
   }
 }
 
+async function loadJSONdata2() {
+  const style = {
+    color: "#e4e5e7ff",
+    weight: 1,
+    fillColor: "#062244ff",
+    fillOpacity: 0.25,
+  };
+
+  try {
+    const r = await fetch("data/rawChina54099.geojson");
+    const geojson = await r.json();
+
+    L.geoJSON(geojson, {
+      coordsToLatLng: (c) => L.latLng(c[1], c[0]),
+      style,
+      interactive: true,
+    }).addTo(mapSpilhaus);
+
+    console.log("Data loaded");
+  } catch (err) {
+    console.error("Data Loaded Failed", err);
+  }
+}
 async function loadCenterPoint() {
   const pointstyle = {
     radius: 6,
@@ -133,4 +156,5 @@ buildCRS();
 createSpilhaus();
 addSpilhausTiles();
 loadJSONdata();
+loadJSONdata2();
 loadCenterPoint();

@@ -1,5 +1,5 @@
 import json
-import shapely
+
 from shapely.validation import make_valid
 from shapely.validation import explain_validity
 from shapely.geometry import mapping, shape, Polygon, Point
@@ -81,7 +81,7 @@ def reconstruct_polygon(ring):
 
 ## main app
 def main(): 
-    inpath = "/Users/xy/Documents/workspace/SpilhausPolygon/data/rawChina54099.geojson"
+    inpath = "/Users/xy/Documents/workspace/SpilhausPolygon/data/rawRussia54099.geojson"
     data= load_geojson_to_data(inpath)
     if data.get("type") == "FeatureCollection":
         all_data = data.get("features")
@@ -103,7 +103,7 @@ def main():
                 find_breakpoint(ring,offshore=16689359*0.000) #检查是否触碰边界
                 if find_crosspoint(ring,center_all): #检测偏离质心大于90度 
                     reconstruct_polygon(ring) #重构每个ring/poly
-                             
+
         
     elif data.get("type") == "Feature":
         all_coord = data.get("geometry").get("coordinates")

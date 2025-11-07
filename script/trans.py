@@ -35,13 +35,13 @@ def getbound():
     print (x,y)
 
 def main():
-    inpath = "/Users/xy/Documents/workspace/widget-spilhaus/data/simpleChina4326.geojson"
+    inpath = "/Users/xy/Documents/workspace/SpilhausPolygon/data/SimpleRussia4326.geojson"
     data = transform(inpath)
     # if not checkvalid(data):
     #     data_fixed = fixgeojson()
     # else:
     #     return data
-    save_to_file(data,"data/rawChina54099.geojson")
+    save_to_file(data,"data/rawRussia54099.geojson")
     getbound()
 
 
