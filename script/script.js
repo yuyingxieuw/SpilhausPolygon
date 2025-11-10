@@ -89,7 +89,7 @@ async function loadJSONdata() {
   };
 
   try {
-    const r = await fetch("data/rawRussia54099.geojson");
+    const r = await fetch("data/rawUS54099.geojson");
     const geojson = await r.json();
 
     L.geoJSON(geojson, {
