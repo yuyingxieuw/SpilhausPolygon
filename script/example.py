@@ -7,6 +7,7 @@ from spilhaus import *
 # loading remote dataset
 ds = xr.open_dataset('https://www.ncei.noaa.gov/thredds-ocean/dodsC/ncei/woa/temperature/decav/0.25/woa18_decav_t00_04.nc',
                      decode_times=False)
+
 # extracting SST data array
 da = ds["t_mn"].sel(depth=0, time=4.326e+03)
 

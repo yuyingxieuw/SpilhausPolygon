@@ -106,7 +106,7 @@ async function loadJSONdata() {
 
 async function loadJSONdata2() {
   const style = {
-    color: "#e4e5e7ff",
+    color: "black",
     weight: 1,
     fillColor: "#062244ff",
     fillOpacity: 0.25,
