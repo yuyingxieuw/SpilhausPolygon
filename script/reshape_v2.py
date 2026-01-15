@@ -15,7 +15,7 @@ def load_geojson_to_data(inpath):
     return data
 
 ##找到触碰边界的点。
-def find_breakpoint(ring,offshore=0):
+def find_breakpoint(ring,offshore=60000):
     """
     Find point touch the extreme boundarys
     

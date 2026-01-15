@@ -1,52 +1,51 @@
 from spilhaus import from_lonlat_to_spilhaus_xy
+from spilhaus import make_spilhaus_xy_gridpoints
+from reshape_v2 import find_crosspoint
 import matplotlib.pyplot as plt
 import geopandas as gpd 
 from shapely.geometry import Polygon, MultiPolygon
+from shapely import make_valid
 import xarray as xr 
 import pandas as pd
 import numpy as np 
 import json
+import pyproj
+from reshape_v2 import find_breakpoint
 
-inpath = "/Users/xy/Documents/workspace/SpilhausPolygon/data/simpleChina4326.geojson"
 
-gdf = gpd.read_file(inpath)
-# print (gdf.geometry.name)
-# print(gdf.columns)
+inpath = "/Users/xy/Documents/workspace/SpilhausPolygon/data/test.geojson"
+# test_4326 = gpd.read_file(inpath)
+# test_4326.plot(color="black", edgecolor="black")
 
-geom = gdf.geometry.iloc[0] #取出第 0 行 feature 的 geometry（一个 Shapely 几何对象）
-# print(geom)
-print(geom.geom_type)
-geom.geoms   # tuple of Polygon - object 
-print(geom.geoms) # object
-print(len(geom.geoms)) # how many does it have 
-ext_coords = [list(poly.exterior.coords) for poly in geom.geoms]
-#holes = [[list(poly.coords) for ring in poly.interiors]for poly in geom.geoms]
-# print("______________exterior_________")
-# print(ext_coords)
-# print(len(ext_coords))
-#print("______________holes____________")
-#print(holes)
+with open (inpath, "r", encoding = "utf-8") as f:
+    test = json.load(f)
+# print(test)
+poly = test.get("features")[0].get("geometry")
+ring = poly.get("coordinates")
 
-ext_0 = ext_coords[0] # 第一个exterior
-ext_1 = ext_coords[1]
-#print(ext_0)
-coord_array_0 = np.array(ext_0)
-x_array_0 = coord_array_0[:,0]
-y_array_0 = coord_array_0[:,1]
-spil_x, spil_y = from_lonlat_to_spilhaus_xy(x_array_0, y_array_0)
-poly_0 = list(zip(spil_x.tolist(), spil_y.tolist()))
-print("________________________result0 ________________________________")
-print(poly_0)
+coords = ring[0][0]
+# print (coords)
+split = find_breakpoint(coords)
+print (split)
 
-coord_array_1 = np.array(ext_1)
-x_array_1 = coord_array_1[:,0]
-y_array_1 = coord_array_1[:,1]
-spil_x_1, spil_y_1 = from_lonlat_to_spilhaus_xy(x_array_1, y_array_1)
-poly_1 = list(zip(spil_x_1.tolist(), spil_y_1.tolist()))
-print("________________________result1 ________________________________")
-print(poly_1)
 
-poly1 = Polygon(poly_0)
-poly2 = Polygon(poly_1)
-new_geom = MultiPolygon([poly1, poly2])
-gdf.loc[0, "geometry"] = new_geom
+
+
+# china_4236 = gpd.read_file(inpath)
+# spilhaus_crs = "ESRI:54099"
+# china_54099 = china_4236.to_crs(spilhaus_crs)
+# china_valid = china_54099.make_valid()
+# print(f"Is valid: {china_valid.is_valid}")
+# china_4326.plot(color="black", edgecolor="white")
+# extreme = 11825474
+# mask_coords = [
+#     (-extreme, -extreme),
+#     (extreme, -extreme),
+#     (extreme, extreme),
+#     (-extreme, extreme)
+# ]
+
+# clip_poly = Polygon(mask_coords)
+# mask_gdf = gpd.GeoDataFrame({'geometry': [clip_poly]}, crs = spilhaus_crs)
+
+# land_prettified = gpd.clip(china_54099, mask_gdf)
